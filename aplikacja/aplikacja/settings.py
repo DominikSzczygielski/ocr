@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l&9&d$tz_pewwo*ii*o865r&w-2n6fi0on!#o2m*&0v5(^z*$e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 MEDIA_URL = "/dokumenty/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "storage", "uploads")
