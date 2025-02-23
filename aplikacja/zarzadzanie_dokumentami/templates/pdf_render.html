@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Podgląd PDF</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% load static %}
+
+    <style>
+        body { text-align: center; }
+        td {vertical-align: top;}
+        .container { position: relative; display: inline-block; }
+        #pdf-image {display: block; }
+        #selection-canvas { position: absolute; top: 0; left: 0; }
+        #preview-container { margin-top: 10px; display: none; }
+        #preview-img { border: 1px solid #ccc;}
+        #tekst {height: auto; min-width: 550px; min-height: 150px; max-height: 300px; overflow: hidden;}
+        #copy-btn, #send-btn { margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+<button id="next">Następna</button><button id="prev">Poprzednia</button>
+<script>
+    const CSRF_TOKEN = "{{ csrf_token }}";
+</script>
+ <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<table>
+    <tr>
+    <td rowspan="2">
+        <div class="container">
+            <img id="pdf-image" src="data:image/jpeg;base64,{{ obraz }}" alt="Podgląd PDF">
+            <canvas id="selection-canvas"></canvas>
+        </div>
+    </td>
+    <td>
+        <textarea id="tekst"></textarea></td>
+    <td>
+
+
+    </tr>
+    <tr>
+    <td>
+        <div id="preview-container">
+            <h3>Podgląd zaznaczenia</h3>
+            <img id="preview-img" alt="Podgląd wyciętego fragmentu">
+        </div>
+    </td>
+    </tr>
+</table>
+    <script src="{% static '/foos.js' %}"></script>
+
+</body>
+</html>

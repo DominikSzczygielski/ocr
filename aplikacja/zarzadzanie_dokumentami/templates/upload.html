@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload plików - Drag & Drop</title>
+    <style>
+        #dropzone {
+            width: 100%;
+            max-width: 400px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 18px;
+            color: #999;
+            margin: 20px auto;
+        }
+        #dropzone.dragover {
+            border-color: #0088ff;
+            background-color: #f0f8ff;
+            color: #0088ff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="dropzone">Przeciągnij plik tutaj</div>
+    <input type="file" id="fileInput" style="display: none;">
+    <button id="uploadBtn">Wyślij</button>
+
+    <script>
+
+        const dropzone = document.getElementById("dropzone");
+        const fileInput = document.getElementById("fileInput");
+        let uploadedFile = null;
+
+        // Obsługa przeciągania
+        dropzone.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            dropzone.classList.add("dragover");
+        });
+
+        dropzone.addEventListener("dragleave", () => {
+            dropzone.classList.remove("dragover");
+        });
+
+        dropzone.addEventListener("drop", (event) => {
+            event.preventDefault();
+            dropzone.classList.remove("dragover");
+
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                uploadedFile = files[0];
+                dropzone.textContent = `Wybrano: ${uploadedFile.name}`;
+            }
+        });
+
+        // Kliknięcie w dropzone otwiera okno wyboru pliku
+        dropzone.addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", (event) => {
+            uploadedFile = event.target.files[0];
+            dropzone.textContent = `Wybrano: ${uploadedFile.name}`;
+        });
+
+        // Obsługa przesyłania pliku AJAX-em
+        document.getElementById("uploadBtn").addEventListener("click", () => {
+            if (!uploadedFile) {
+                alert("Wybierz plik!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", uploadedFile);
+
+            fetch("{% url 'wgraj_plik' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": getCSRFToken(), // Pobranie CSRF tokena
+                },
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message || data.error))
+            .catch(error => console.error("Błąd:", error));
+        });
+
+        // Funkcja do pobrania CSRF tokena z ciasteczek Django
+        function getCSRFToken() {
+            const cookieValue = document.cookie
+                .split("; ")
+                .find(row => row.startsWith("csrftoken="))
+                ?.split("=")[1];
+            return cookieValue || "";
+        }
+    </script>
+
+</body>
+</html>
