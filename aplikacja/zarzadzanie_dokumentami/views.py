@@ -46,8 +46,8 @@ def wyswietl_pdf(request, page=None):
    ### pdf_nazwa = get_object_or_404(Pliki,<TODO>)
    ##pdf_nazwa = request.session['plik']
 
-    images = convert_from_path(f'./storage/uploads/new_files/akcyza.pdf')
-    pdf_info = pdfinfo_from_path(f'./storage/uploads/new_files/akcyza.pdf')
+    images = convert_from_path(f'./storage/uploads/new_files/6adb1e9b9ff94c14bff3e5147bf5e2d7.pdf')
+    pdf_info = pdfinfo_from_path(f'./storage/uploads/new_files/6adb1e9b9ff94c14bff3e5147bf5e2d7.pdf')
     if page==None:
         page = 1
     num_pages = pdf_info["Pages"]
