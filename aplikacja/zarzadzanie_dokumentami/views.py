@@ -16,6 +16,18 @@ from .models import Pliki
 from .foos import ocr
 import hashlib
 
+def route(request):
+    if request.method == "POST":
+        target = request.POST.get("file")
+        request.session['plik'] = target
+        if (re.search(r"(\.pdf)$", target, re.IGNORECASE)):
+
+            return redirect("/aplikacja/pdf/")
+        elif (re.search(r"(\.(doc|docx))$", target, re.IGNORECASE)):
+            return redirect("/aplikacja/wordy/")
+        else:
+            return redirect("/aplikacja/")
+
 def wgraj_plik(request):
     if request.method == "POST":
         form = WgrajPlik(request.POST, request.FILES)
@@ -76,8 +88,14 @@ def wyswietl_word(request):
 
     return render(request, "wordy.html", {"dokument": dokument_skonwertowany.value})
 
-def index(request):
-    return render(request, "upload.html")
+
+def lista(request):
+    pliki = settings.BASE_DIR+"/storage/uploads/new_files/"
+    lista = []
+    for file_name in os.listdir(pliki):
+        lista.append(file_name)
+    return render(request, "files.html",{"lista":lista})
+
 def upload_selection(request):
 
     if request.method == "POST" and request.FILES.get("cropped_image"):

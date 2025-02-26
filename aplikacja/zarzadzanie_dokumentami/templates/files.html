@@ -10,7 +10,15 @@
 </head>
 <body>
 
-
+<table>
+    {%for element in lista%}
+    <form method="POST" action="route/">
+        {% csrf_token %}
+        <tr><td><input type="text" name="file" value="{{element}}"></td>
+        <td><input  type="submit"></td></tr>
+    </form>
+    {%endfor%}
+</table>
 
 </body>
 </html>
