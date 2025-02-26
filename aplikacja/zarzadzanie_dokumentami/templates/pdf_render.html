@@ -7,8 +7,22 @@
     {% load static %}
 
     <style>
+        textarea {
+        resize: none;
+        width: 90%;
+        height: 250px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        }
+
+        table{
+        width: calc(90% - 60px);
+        margin-left: 30px;
+        margin-right: 30px;
+        }
         body { text-align: center; }
-        td {vertical-align: top;}
+        td {vertical-align: top;
+        border: solid 1px;}
         .container { position: relative; display: inline-block; }
         #pdf-image {display: block; }
         #selection-canvas { position: absolute; top: 0; left: 0; }

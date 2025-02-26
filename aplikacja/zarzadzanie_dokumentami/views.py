@@ -22,6 +22,8 @@ def wgraj_plik(request):
         if form.is_valid():
             uploaded_file = request.FILES["file"]
 
+            form.save()
+
 
             ext = os.path.splitext(uploaded_file.name)[1]
             new_filename = f"{uuid.uuid4().hex}{ext}"
@@ -32,22 +34,24 @@ def wgraj_plik(request):
                 for chunk in uploaded_file.chunks():
                     destination.write(chunk)
             request.session['plik'] = new_filename
+
             if (re.search(r"(\.pdf)$", new_filename, re.IGNORECASE)):
-                return redirect("/aplikacja/konwertuj/")
+
+                return redirect("/aplikacja/pdf/")
             elif (re.search(r"(\.(doc|docx))$", new_filename, re.IGNORECASE)):
                 return redirect("/aplikacja/wordy/")
             else:
                 return redirect("/aplikacja/")
     else:
         form = WgrajPlik()
-    return render(request, "dodaj.html", {"form": form})
+        return render(request, "dodaj.html", {"form": form})
 
 def wyswietl_pdf(request, page=None):
    ### pdf_nazwa = get_object_or_404(Pliki,<TODO>)
-   ##pdf_nazwa = request.session['plik']
+    pdf_nazwa = request.session['plik']
 
-    images = convert_from_path(f'./storage/uploads/new_files/6adb1e9b9ff94c14bff3e5147bf5e2d7.pdf')
-    pdf_info = pdfinfo_from_path(f'./storage/uploads/new_files/6adb1e9b9ff94c14bff3e5147bf5e2d7.pdf')
+    images = convert_from_path(f'./storage/uploads/new_files/{pdf_nazwa}')
+    pdf_info = pdfinfo_from_path(f'./storage/uploads/new_files/{pdf_nazwa}')
     if page==None:
         page = 1
     num_pages = pdf_info["Pages"]
@@ -75,7 +79,7 @@ def wyswietl_word(request):
 def index(request):
     return render(request, "upload.html")
 def upload_selection(request):
-    print('odebrane')
+
     if request.method == "POST" and request.FILES.get("cropped_image"):
         uploaded_file = request.FILES["cropped_image"]
 
