@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-<!--<button id="next">Następna</button><button id="prev">Poprzednia</button>-->
+
 <a href="/aplikacja/list/">Lista plików</a>
 <script>
     const CSRF_TOKEN = "{{ csrf_token }}";
@@ -63,6 +63,6 @@
     </tr>
 </table>
     <script src="{% static '/foos.js' %}"></script>
-
+<button id="next">Następna</button><button id="prev">Poprzednia</button>
 </body>
 </html>
