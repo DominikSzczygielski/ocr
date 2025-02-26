@@ -57,6 +57,7 @@ def wgraj_plik(request):
     else:
         form = WgrajPlik()
         return render(request, "dodaj.html", {"form": form})
+    return render(request, "dodaj.html", {"form": form})
 
 def wyswietl_pdf(request, page=None):
    ### pdf_nazwa = get_object_or_404(Pliki,<TODO>)
