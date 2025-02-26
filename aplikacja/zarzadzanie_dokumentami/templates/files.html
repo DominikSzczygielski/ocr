@@ -10,6 +10,7 @@
 </head>
 <body>
 <form method="POST" action="wgraj/">
+    {% csrf_token %}
     <input  type="submit" value="Dodaj Plik">
 </form>
 <table>
