@@ -9,10 +9,7 @@
     </style>
 </head>
 <body>
-<form method="POST" action="wgraj/">
-    {% csrf_token %}
-    <input  type="submit" value="Dodaj Plik">
-</form>
+<a href="../wgraj/">Lista plików</a>
 <table>
     {%for element in lista%}
     <form method="POST" action="route/">
